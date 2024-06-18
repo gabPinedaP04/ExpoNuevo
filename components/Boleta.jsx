@@ -2,8 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Alert, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BarChart } from 'react-native-chart-kit';
+import CameraViewPhoto from './Camera';
+import CameraViewVideo from './Video';
 
 export default function Boleta() {
+  let botones = false;
+
+  const [showCamera, setShowCamera] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const[showButton, setShowButton] = useState(false)
+
+
   const [votoPRI, setVotoPRI] = useState(0);
   const [votoPAN, setVotoPAN] = useState(0);
   const [votoMorena, setVotoMorena] = useState(0);
@@ -16,6 +25,10 @@ export default function Boleta() {
     PAN: "Introducir un impuesto a las transacciones financieras para redistribuir la riqueza y financiar programas sociales. Establecer cooperativas de trabajo y empresas comunitarias para fomentar la economía solidaria.Crear un fondo de inversión pública para financiar proyectos de infraestructura sostenible y generar empleo..",
     Morena: "Reducir los impuestos a las empresas para incentivar la inversión y la creación de empleo.Promover acuerdos comerciales internacionales que beneficien a los sectores industriales y agrícolas del país. Implementar políticas de desregulación para facilitar la apertura y operación de negocios."
   };
+
+  function habilitarBotones(){
+    habilitarBotones = true;
+  }
 
   const mostrarPropuestas = (party) => {
     switch (party) {
@@ -59,6 +72,10 @@ export default function Boleta() {
 
   // Función para registrar un voto
   const votar = async (party) => {
+    setShowCamera(true);
+    setShowVideo(true)
+
+
     try {
       let newVoteCount;
       switch (party) {
@@ -159,7 +176,15 @@ export default function Boleta() {
   };
 
   return (<View style={styles.container}>
-    <Text style={styles.header}>Candidatos</Text>
+
+<CameraViewPhoto></CameraViewPhoto>
+<TouchableOpacity style={[styles.button, styles.detailsButton]} onPress={() => habilitarBotones()}>
+<Text style={styles.buttonText}>Subir Foto</Text>
+
+</TouchableOpacity>
+
+
+    <Text style={styles.header}>CandiGatos</Text>
 
     {/* Tarjeta para PRI */}
     <View style={styles.card}>
@@ -241,6 +266,15 @@ export default function Boleta() {
     <View>
       <Text>Morena: {votoMorena} PAN: {votoPAN} PRI: {votoPRI}</Text>
     </View>
+
+   
+    {showVideo && <CameraViewVideo/>}
+    
+
+
+
+        
+
   </View>
   );
 }
