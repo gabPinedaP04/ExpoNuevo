@@ -11,6 +11,7 @@ export default function Boleta() {
   const [showCamera, setShowCamera] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const[showButton, setShowButton] = useState(false)
+  const[grabar, setGrabar] = useState(false)
 
 
   const [votoPRI, setVotoPRI] = useState(0);
@@ -25,6 +26,7 @@ export default function Boleta() {
     PAN: "Introducir un impuesto a las transacciones financieras para redistribuir la riqueza y financiar programas sociales. Establecer cooperativas de trabajo y empresas comunitarias para fomentar la economía solidaria.Crear un fondo de inversión pública para financiar proyectos de infraestructura sostenible y generar empleo..",
     Morena: "Reducir los impuestos a las empresas para incentivar la inversión y la creación de empleo.Promover acuerdos comerciales internacionales que beneficien a los sectores industriales y agrícolas del país. Implementar políticas de desregulación para facilitar la apertura y operación de negocios."
   };
+
 
  
 
@@ -49,6 +51,9 @@ export default function Boleta() {
         break;
     }
   };
+
+  
+
   // Cargar los votos almacenados al iniciar
   useEffect(() => {
     const loadVotes = async () => {
@@ -56,6 +61,7 @@ export default function Boleta() {
         const savedVotoPRI = await AsyncStorage.getItem('votoPRI');
         const savedVotoPAN = await AsyncStorage.getItem('votoPAN');
         const savedVotoMorena = await AsyncStorage.getItem('votoMorena');
+
 
         setVotoPRI(parseInt(savedVotoPRI) || 0);
         setVotoPAN(parseInt(savedVotoPAN) || 0);
@@ -72,13 +78,23 @@ export default function Boleta() {
     setShowButton(true)
   }
 
+  function startOrStopVideo(){
+    if (!isRecording){
+      takeVideo();
+      setRecordingText("Stop recording");
+    } else {
+      stopVideo();
+      setRecordingText("Record video");
+    }
+  }
+
   // Función para registrar un voto
   const votar = async (party) => {
     setShowCamera(true);
     setShowVideo(true)
-
-
+    
     try {
+      console.log("entrar a votar")
       let newVoteCount;
       switch (party) {
         case 'PRI':
@@ -232,7 +248,7 @@ export default function Boleta() {
           <Text style={styles.buttonText}>Detalles</Text>
         </TouchableOpacity>
 
-        {showButton && <TouchableOpacity style={[styles.button, styles.voteButton]} onPress={() => votar('Morena')}>
+        {showButton && <TouchableOpacity style={[styles.button, styles.voteButton]} onPress={() => votar('Morena')} >
           <Text style={styles.buttonText}>Votar</Text>
         </TouchableOpacity>}
 

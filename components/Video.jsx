@@ -82,8 +82,8 @@ const CameraViewVideo = () => {
     <View style={styles.container}>
       <CameraView style={styles.camera} ref={cameraRef} mode="video" facing={facing}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={startOrStopVideo}>
-            <Text style={styles.text}>{recordingText}</Text>
+          <TouchableOpacity style={styles.button} >
+            <Text style={styles.text}>{"Grabando..."}</Text>
           </TouchableOpacity>
         </View>
       </CameraView>
