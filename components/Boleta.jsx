@@ -26,9 +26,7 @@ export default function Boleta() {
     Morena: "Reducir los impuestos a las empresas para incentivar la inversión y la creación de empleo.Promover acuerdos comerciales internacionales que beneficien a los sectores industriales y agrícolas del país. Implementar políticas de desregulación para facilitar la apertura y operación de negocios."
   };
 
-  function habilitarBotones(){
-    habilitarBotones = true;
-  }
+ 
 
   const mostrarPropuestas = (party) => {
     switch (party) {
@@ -69,6 +67,10 @@ export default function Boleta() {
 
     loadVotes();
   }, []);
+
+  function habilitarBotones(){
+    setShowButton(true)
+  }
 
   // Función para registrar un voto
   const votar = async (party) => {
@@ -193,9 +195,9 @@ export default function Boleta() {
         <TouchableOpacity style={[styles.button, styles.detailsButton]} onPress={() => mostrarPropuestas('PRI')}>
           <Text style={styles.buttonText}>Detalles</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.voteButton]} onPress={() => votar('PRI')}>
+        {showButton && <TouchableOpacity style={[styles.button, styles.voteButton]} onPress={() => votar('PRI')}>
           <Text style={styles.buttonText}>Votar</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
       {showPropuestasPRI && (
         <View style={styles.propuestasContainer}>
@@ -211,9 +213,9 @@ export default function Boleta() {
         <TouchableOpacity style={[styles.button, styles.detailsButton]} onPress={() => mostrarPropuestas('PAN')}>
           <Text style={styles.buttonText}>Detalles</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.voteButton]} onPress={() => votar('PAN')}>
+        {showButton &&<TouchableOpacity style={[styles.button, styles.voteButton]} onPress={() => votar('PAN')}>
           <Text style={styles.buttonText}>Votar</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
       {showPropuestasPAN && (
         <View style={styles.propuestasContainer}>
@@ -229,9 +231,11 @@ export default function Boleta() {
         <TouchableOpacity style={[styles.button, styles.detailsButton]} onPress={() => mostrarPropuestas('Morena')}>
           <Text style={styles.buttonText}>Detalles</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.voteButton]} onPress={() => votar('Morena')}>
+
+        {showButton && <TouchableOpacity style={[styles.button, styles.voteButton]} onPress={() => votar('Morena')}>
           <Text style={styles.buttonText}>Votar</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
+
       </View>
       {showPropuestasMorena && (
         <View style={styles.propuestasContainer}>
@@ -269,7 +273,8 @@ export default function Boleta() {
 
    
     {showVideo && <CameraViewVideo/>}
-    
+
+
 
 
 
